@@ -24,8 +24,10 @@ Jenkins를 사용하는 이유
 docker logs myjenkins -f
 ```
 
-- *[사진 첨부 필요: Jenkins 첫 접속 화면 및 초기 초기비밀번호 입력 창]*
-- *[사진 첨부 필요: Install suggested plugins 버튼 등 플러그인 설치 창]*
+<img width="1183" height="463" alt="스크린샷 2026-03-24 155349" src="https://github.com/user-attachments/assets/ccf8b135-3f6f-4528-b526-c9136fa2b0e9" />
+<img width="1223" height="850" alt="스크린샷 2026-03-24 155623" src="https://github.com/user-attachments/assets/5fff7a43-95f7-42ef-b9f6-f1ca2720aec6" />
+<img width="1186" height="813" alt="스크린샷 2026-03-24 155809" src="https://github.com/user-attachments/assets/db6bfa84-5474-4b20-a496-960dafb51f09" />
+
 ---
 
 ## 외부 연동 설정 (ngrok & GitHub Webhook)
@@ -33,15 +35,24 @@ docker logs myjenkins -f
 > 로컬 구동 중인 Jenkins를 인터넷망에 노출하여 GitHub 이벤트 알림을 수신하도록 설정
 
 - **ngrok 포트 포워딩**
-  - 로컬 8080 포트를 외부에서 접근 가능하도록 터널링: `ngrok http 8080`
+  - 로컬 80 포트를 외부에서 접근 가능하도록 터널링: `ngrok http 80`
 
 - **GitHub Webhook 등록**
   - 레포지토리 `Settings` > `Webhooks`에서 Payload URL에 ngrok 발급 주소(`https://...ngrok-free.app/github-webhook/`) 등록
   
   - 코드가 레포지토리에 푸시(Push)될 때마다 Jenkins로 자동 빌드 트리거 발송
+    
+<img width="1070" height="524" alt="스크린샷 2026-03-24 160248" src="https://github.com/user-attachments/assets/beca8b5b-7462-4ba3-b1e7-ec6f3e6701b7" />
 
-- *[사진 첨부 필요: 터미널 ngrok 실행 결과 화면]*
-- *[사진 첨부 필요: GitHub Webhook 등록 완료 화면(초록색 체크박스)]*
+```bash
+ngrok config add-authtoken your_token
+```
+<img width="1109" height="517" alt="스크린샷 2026-03-24 160342" src="https://github.com/user-attachments/assets/f2322ccb-30e2-412a-8c05-6a1322dee998" />
+
+<img width="751" height="364" alt="스크린샷 2026-03-24 오후 4 07 33" src="https://github.com/user-attachments/assets/87f62ae4-698d-4fd4-a5c7-9996fd249c7a" />
+
+- 레포지토리 설정에서 웹훅 추가
+
 ---
 
 ## Jenkins Pipeline 구성
@@ -62,9 +73,6 @@ docker logs myjenkins -f
     }
   }
   ```
-- *[사진 첨부 필요: 새로운 Item 생성 시 Pipeline 선택 화면]*
-- *[사진 첨부 필요: Jenkins Pipeline Stage View(각 단계별 소요시간/성공여부 시각화) 화면]*
-
 ---
 
 ## 빌드 도구 (Gradle) 활용
@@ -97,6 +105,5 @@ docker logs myjenkins -f
   3. Pipeline을 거쳐 빌드된 `.jar` 파일을 마운트 타겟 위치로 **자동 복사** (`cp` 명령어 적용)
   4. 복사된 jar 파일을 호스트 컴퓨터 터미널에서 `java -jar app.jar` 명령어로 구동
 
-- *[사진 첨부 필요: 호스트 터미널에서 jar 파일 구동 화면]*
-- *[사진 첨부 필요: Jenkins 빌드 전체 성공 내역(초록색 렌더링) 화면]*
-- *[사진 첨부 필요: 최종적으로 브라우저에서 서비스 접속 및 구동이 확인 된 화면]*
+<img width="738" height="345" alt="스크린샷 2026-03-24 오후 4 10 19" src="https://github.com/user-attachments/assets/6f80d10e-a4bf-4aa4-98b9-90390b47d9d9" />
+<img width="752" height="650" alt="스크린샷 2026-03-24 오후 4 10 54" src="https://github.com/user-attachments/assets/23d4cb44-865e-49e7-8eb4-2ed5f25fa875" />
